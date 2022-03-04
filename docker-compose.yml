@@ -4,9 +4,25 @@ services:
   redis: 
     image: redis
     container_name: "redis_api"
+    networks:
+      vpcbr:
+        ipv4_address: 10.5.0.5
 
   redis.web.api:
     image: ${DOCKER_REGISTRY-}rediswebapi
     build:
       context: .
       dockerfile: Src/Redis.Web.Api/Dockerfile
+    networks:
+      vpcbr:
+        ipv4_address: 10.5.0.6
+    depends_on:
+     - redis_api
+
+networks:
+  vpcbr:
+    driver: bridge
+    ipam:
+     config:
+       - subnet: 10.5.0.0/16
+         gateway: 10.5.0.1
