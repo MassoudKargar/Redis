@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  redis: 
+    image: redis
+    container_name: "redis_api"
+
+  redis.web.api:
+    image: ${DOCKER_REGISTRY-}rediswebapi
+    build:
+      context: .
+      dockerfile: Src/Redis.Web.Api/Dockerfile
